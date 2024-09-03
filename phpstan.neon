@@ -1,0 +1,34 @@
+# See https://phpstan.org/user-guide/baseline
+#includes:
+#  - phpstan-baseline.neon
+
+includes:
+  - vendor/spaze/phpstan-disallowed-calls/extension.neon
+
+parameters:
+  # See https://phpstan.org/user-guide/rule-levels
+  level: 6
+  parallel:
+    maximumNumberOfProcesses: 6
+    processTimeout: 900.0
+  tmpDir: build/shared_cache/phpstan
+  reportUnmatchedIgnoredErrors: false
+  disallowedFunctionCalls:
+    - function: 'exit()'
+      message: 'Return action response OR `throw new \RuntimeException("Human-readable error message with {$context}");`'
+    - function: 'die()'
+      message: 'Return action response OR `throw new \RuntimeException("Human-readable error message with {$context}");`'
+  bootstrapFiles:
+  fileExtensions:
+    - php
+  scanDirectories:
+    - src
+    - tests
+  excludePaths:
+    - '*/bin/*'
+    - '*/build/*'
+    - '*/cache/*'
+    - '*/config/*'
+    - '*/uploads/*'
+    - '*/node_modules/*'
+    - '*/vendor/*'
